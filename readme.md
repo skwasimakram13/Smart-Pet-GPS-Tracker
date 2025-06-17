@@ -1,8 +1,8 @@
 # 🐶 Your Smart Pet GPS Tracker – Full Development Roadmap
 ## 🔧 1. Hardware Components
-You’ll need a compact embedded system that includes:
+### You’ll need a compact embedded system that includes:
 
-Component	Purpose	Suggested Part
+#### Component	Purpose	Suggested Part
 🧠 Microcontroller	Brain of the device	ESP32 (Wi-Fi + Bluetooth)
 📍 GPS Module	Location tracking	u-blox NEO-6M or Quectel L86
 📶 GSM Module	Send location via SIM	SIM800L / SIM7600 (4G)
