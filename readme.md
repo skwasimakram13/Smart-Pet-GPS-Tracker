@@ -219,6 +219,8 @@ This project includes everything from hardware to software stack:
 ---
 
 <br />
+<br />
+<br />
 
 
 # 🐾 Pet GPS Tracker – ESP32 + SIM800L + GPS
