@@ -3,13 +3,13 @@
 ### You’ll need a compact embedded system that includes:
 
 #### Component	Purpose	Suggested Part
-🧠 Microcontroller	Brain of the device	ESP32 (Wi-Fi + Bluetooth)
-📍 GPS Module	Location tracking	u-blox NEO-6M or Quectel L86
-📶 GSM Module	Send location via SIM	SIM800L / SIM7600 (4G)
-🔋 Battery	Rechargeable	3.7V Li-ion battery (1000–2000mAh)
-⚡ Charging	Power management	TP4056 charging module
-📦 Enclosure	Waterproof & rugged	Custom 3D printed or off-the-shelf IP67 case
-🐾 Collar/Strap	Mountable	Adjustable pet collar strap
+- 🧠 Microcontroller	Brain of the device	ESP32 (Wi-Fi + Bluetooth)
+- 📍 GPS Module	Location tracking	u-blox NEO-6M or Quectel L86
+- 📶 GSM Module	Send location via SIM	SIM800L / SIM7600 (4G)
+- 🔋 Battery	Rechargeable	3.7V Li-ion battery (1000–2000mAh)
+- ⚡ Charging	Power management	TP4056 charging module
+- 📦 Enclosure	Waterproof & rugged	Custom 3D printed or off-the-shelf IP67 case
+- 🐾 Collar/Strap	Mountable	Adjustable pet collar strap
 
 Optional:
 
