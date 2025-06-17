@@ -1,4 +1,4 @@
-🐶 Your Smart Pet GPS Tracker – Full Development Roadmap
+# 🐶 Your Smart Pet GPS Tracker – Full Development Roadmap
 🔧 1. Hardware Components
 You’ll need a compact embedded system that includes:
 
