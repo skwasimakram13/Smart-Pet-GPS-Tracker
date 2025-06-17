@@ -216,5 +216,187 @@ This project includes everything from hardware to software stack:
 - ✅ Production-ready firmware for ESP32
 - ✅ Modern mobile app with real-time tracking
 
+---
+
+<br />
+
+
+# 🐾 Pet GPS Tracker – ESP32 + SIM800L + GPS
+
+This project is a lightweight, battery-efficient GPS tracking system for pets. It uses the **ESP32 microcontroller**, **SIM800L GSM module**, and **NEO-6M GPS module** to send real-time location data to a server via mobile network.
+
+---
+
+## 📦 Project Scope
+
+✅ Real-time GPS location tracking  
+✅ Sends location via GSM to your server  
+✅ Designed for pets (compact, rugged, low-power)  
+✅ Companion mobile app (React Native – planned)  
+✅ Optional geo-fence alerts & battery monitoring
+
+---
+
+## 📁 Contents
+
+- `firmware/` → ESP32 Arduino firmware (.ino)  
+- `hardware/` → Schematics, PCB files, BOM  
+- `README.md` → Project documentation
+
+---
+
+## 🔧 Phase 1: PCB Design (ESP32 + SIM800L + GPS)
+
+### 🔋 Power System
+
+| Component        | Role                                     |
+|------------------|------------------------------------------|
+| **TP4056**       | Lithium-ion battery charging             |
+| **18650 3.7V**   | Rechargeable battery                     |
+| **AMS1117-3.3V** | 3.3V Regulator for ESP32, GPS            |
+| **MP1584**       | Buck converter to power SIM800L (4.0V/2A)|
+
+---
+
+### 🧠 Core Modules
+
+| Module          | Function                     |
+|------------------|------------------------------|
+| **ESP32 DevKit V1** | Main controller (Wi-Fi + BLE)  |
+| **SIM800L**         | GSM/GPRS (HTTP via SIM card)   |
+| **NEO-6M**          | GPS receiver (UART interface)  |
+| **Slide Switch**    | Manual on/off switch           |
+| **LEDs**            | Power/status indicators        |
+
+---
+
+### 📡 Block Diagram
+
+```
+[Battery] 
+   |
+  TP4056 -----> MP1584 Buck -----> SIM800L (4.0V)
+   |
+  AMS1117 ---> ESP32 (3.3V) -----> GPS (3.3V)
+                          |
+                      Tx/Rx (UART)
+```
+
+---
+
+### 📎 Hardware Files
+
+To be placed in `hardware/` folder:
+- `PetTracker_Schematic.schdoc`
+- `PetTracker_PCB.pcbdoc`
+- `PetTracker_BOM.xlsx`
+- `PetTracker_Gerber.zip` (for fabrication)
+
+---
+
+## 🧪 Phase 2: Firmware (Arduino for ESP32)
+
+### 📚 Libraries Used
+
+```cpp
+TinyGPS++       // GPS parsing
+HTTPClient      // HTTP POST requests
+WiFi            // (Optional: for WiFi fallback)
+HardwareSerial  // SIM800L + GPS UART handling
+```
+
+---
+
+### 🔁 Functionality Overview
+
+1. Read GPS location from NEO-6M
+2. Connect to GSM network via SIM800L
+3. Send lat/lon to backend server using HTTP POST
+4. Enter deep sleep for power saving (configurable)
+
+---
+
+### 📍 Firmware Code Snippet
+
+```cpp
+#include <TinyGPS++.h>
+#include <HardwareSerial.h>
+#include <HTTPClient.h>
+#include <WiFi.h>
+
+TinyGPSPlus gps;
+HardwareSerial gpsSerial(1); // RX1, TX1
+HardwareSerial simSerial(2); // RX2, TX2
+
+void sendToServer(float lat, float lon) {
+  HTTPClient http;
+  http.begin("http://yourserver.com/track");
+  http.addHeader("Content-Type", "application/json");
+
+  String payload = "{"lat":" + String(lat, 6) + ","lon":" + String(lon, 6) + "}";
+  int httpResponseCode = http.POST(payload);
+
+  Serial.println("HTTP Response: " + String(httpResponseCode));
+  http.end();
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  gpsSerial.begin(9600, SERIAL_8N1, 16, 17);   // GPS: GPIO16 (RX), GPIO17 (TX)
+  simSerial.begin(9600, SERIAL_8N1, 26, 27);   // GSM: GPIO26 (RX), GPIO27 (TX)
+
+  delay(3000);
+
+  while (!gps.location.isValid()) {
+    while (gpsSerial.available()) {
+      gps.encode(gpsSerial.read());
+    }
+  }
+
+  float lat = gps.location.lat();
+  float lon = gps.location.lng();
+
+  Serial.println("Location: " + String(lat) + ", " + String(lon));
+  sendToServer(lat, lon);
+
+  // Deep Sleep
+  esp_sleep_enable_timer_wakeup(5 * 60 * 1000000); // 5 minutes
+  esp_deep_sleep_start();
+}
+
+void loop() {}
+```
+
+---
+
+### 📤 Server Endpoint Example (JSON POST)
+
+```json
+{
+  "lat": 22.5726,
+  "lon": 88.3639
+}
+```
+
+> Replace `"http://yourserver.com/track"` with your actual backend API URL.
+
+---
+
+## 🛠️ Next Phases
+
+- [ ] Phase 3: Mobile App UI (React Native or Java)
+- [ ] Phase 4: Branding, 3D Packaging, Logo Design
+
+---
+
+## 👨‍💻 Author
+
+Made with 💡 by [Your Startup Name]  
+Contact: hello@yourdomain.com
+
+---
+
+
 Let’s get started!
 
