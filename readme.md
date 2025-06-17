@@ -116,3 +116,105 @@ A backend server is required to handle data from the GPS device and serve it to 
 This Smart Pet GPS Tracker is a comprehensive project combining hardware, firmware, backend, and a mobile app. Customize it with your unique twist and bring peace of mind to pet parents everywhere!
 
 ---
+
+
+
+
+
+# ✅ Smart Pet GPS Tracker – Development Phases Overview
+
+This document outlines the multi-phase roadmap for developing a custom Smart Pet GPS Tracker with hardware, firmware, and a mobile app.
+
+---
+
+## ✅ Phase 1: PCB Design (🧩 ESP32 + SIM800L + GPS)
+
+### 🔧 Schematic Overview
+
+**Core Modules:**
+- 🧠 **ESP32 Dev Module**
+- 📶 **SIM800L GSM Module**
+- 📍 **u-blox NEO-6M GPS Module**
+- 🔋 **3.7V Li-ion Battery** with **TP4056 Charger**
+- ⚡ **Voltage Regulator**: AMS1117-3.3V or Buck Converter (e.g., MP1584)
+- 🔌 Power Switch, Status LEDs
+
+### 🔌 Power Requirements
+
+| Component     | Voltage | Notes                             |
+|---------------|---------|------------------------------------|
+| SIM800L       | 4.0V    | Requires up to **2A peak current** |
+| ESP32 + GPS   | 3.3V    | Use separate regulated rail        |
+
+Use a **Buck Converter (MP1584)** for reliable voltage step-down from the battery.
+
+### 🛠️ Tools
+
+- **Design Software**: EasyEDA or KiCad
+- ✅ Deliverables:
+  - Schematic (`.sch`)
+  - Gerber files (`.zip`)
+  - Bill of Materials (BOM)
+
+> ❓ **Choice Needed:**  
+> Should we use a standard **ESP32 Dev Board** for easier prototyping or go with a **custom compact ESP32 module** for production?
+
+---
+
+## ✅ Phase 2: Firmware Code (🧪 ESP32 + SIM800L + GPS)
+
+### 📋 Key Features
+
+- 📍 Read GPS location (latitude/longitude) via **UART**
+- 🌐 Send location via **HTTP POST** using SIM800L
+- 🔋 Enter **deep sleep** mode between updates to save battery
+- 🧭 Optional: Trigger **geofence alerts**
+
+### 🧰 Libraries & Tools
+
+- [`TinyGPS++`](https://github.com/mikalhart/TinyGPSPlus) – Parse GPS data
+- `SoftwareSerial` or `HardwareSerial` – For SIM800L communication
+- `HTTPClient` – Send data to server
+- `esp_sleep` or `LowPower` – Power saving
+
+✅ Deliverables:
+- Full **Arduino-compatible firmware code**
+- Configurable update interval and geofence settings
+
+---
+
+## ✅ Phase 3: Mobile App UI (📱 React Native Preferred)
+
+### 🖥️ App Screens & Features
+
+- 🗺️ **Live Map View** – Show pet’s current location
+- 🐶 **Pet Profile** – Image, name, age, ID
+- 📏 **Geo-Fence Setup** – Drag-and-drop map to define safe zone
+- 🔔 **Alerts & Notifications** – Pet leaves zone, low battery, etc.
+- 🔋 **Battery Status** – Show current battery level & last sync
+- 📁 **Multi-pet Support** (optional)
+
+### ⚙️ Development Choices
+
+> ❓ Do you prefer:
+> - **React Native** (Recommended – cross-platform, ideal for MVP)
+> - **Native Android (Java)** (Single platform, deeper integration)
+
+### 🧾 Deliverables:
+- App screens & navigation (React Navigation or Jetpack Compose)
+- Basic backend integration via **mock REST APIs**
+- Optional **Figma UI Design**
+- Complete app **source code**
+
+---
+
+## 📦 Final Notes
+
+This project includes everything from hardware to software stack:
+
+- ✅ Hardware-ready PCB & power circuit
+- ✅ Production-ready firmware for ESP32
+- ✅ Modern mobile app with real-time tracking
+
+Let’s get started!
+
